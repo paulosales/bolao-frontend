@@ -75,47 +75,41 @@ export default function BetForm({ open, onClose, onSuccess, match, poolId, exist
 
   return (
     <Modal open={open} onClose={onClose} title="Fazer Aposta" size="sm">
-      <div className="flex items-center justify-between gap-4 mb-6">
-        <div className="flex flex-col items-center gap-1 flex-1">
-          {homeFlag && <img src={homeFlag} alt="" className="w-10 h-auto" />}
-          <span className="text-sm font-semibold text-center">
-            {match.home_team?.name ?? 'Casa'}
-          </span>
-        </div>
-        <span className="text-lg font-bold text-gray-400">X</span>
-        <div className="flex flex-col items-center gap-1 flex-1">
-          {awayFlag && <img src={awayFlag} alt="" className="w-10 h-auto" />}
-          <span className="text-sm font-semibold text-center">
-            {match.away_team?.name ?? 'Visitante'}
-          </span>
-        </div>
-      </div>
-
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        <div className="flex items-center gap-4">
-          <Input
-            type="number"
-            min={0}
-            max={99}
-            label={match.home_team?.name ?? 'Casa'}
-            error={errors.home_score_bet?.message}
-            {...register('home_score_bet', {
-              required: 'Obrigatório',
-              min: { value: 0, message: 'Mín 0' },
-            })}
-          />
-          <span className="text-xl font-bold text-gray-400 pt-5">x</span>
-          <Input
-            type="number"
-            min={0}
-            max={99}
-            label={match.away_team?.name ?? 'Visitante'}
-            error={errors.away_score_bet?.message}
-            {...register('away_score_bet', {
-              required: 'Obrigatório',
-              min: { value: 0, message: 'Mín 0' },
-            })}
-          />
+        <div className="grid grid-cols-[1fr_auto_1fr] items-end gap-4 mb-2">
+          <div className="flex flex-col items-center gap-1">
+            {homeFlag && <img src={homeFlag} alt="" className="w-10 h-auto" />}
+            <span className="text-sm font-semibold text-center">
+              {match.home_team?.name ?? 'Casa'}
+            </span>
+            <Input
+              type="number"
+              min={0}
+              max={99}
+              error={errors.home_score_bet?.message}
+              {...register('home_score_bet', {
+                required: 'Obrigatório',
+                min: { value: 0, message: 'Mín 0' },
+              })}
+            />
+          </div>
+          <span className="text-xl font-bold text-gray-400 pb-2">x</span>
+          <div className="flex flex-col items-center gap-1">
+            {awayFlag && <img src={awayFlag} alt="" className="w-10 h-auto" />}
+            <span className="text-sm font-semibold text-center">
+              {match.away_team?.name ?? 'Visitante'}
+            </span>
+            <Input
+              type="number"
+              min={0}
+              max={99}
+              error={errors.away_score_bet?.message}
+              {...register('away_score_bet', {
+                required: 'Obrigatório',
+                min: { value: 0, message: 'Mín 0' },
+              })}
+            />
+          </div>
         </div>
 
         <div className="flex gap-2 justify-end">
