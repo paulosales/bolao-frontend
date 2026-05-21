@@ -69,15 +69,13 @@ export default function PoolDetailPage() {
         </div>
         <div className="flex gap-2">
           {currentPool.is_creator && (
-            <>
-              <Link to={`/pools/${id}/settings`} className="btn-secondary text-sm">
-                ⚙️ Configurar
-              </Link>
-              <Link to={`/pools/${id}/rules`} className="btn-secondary text-sm">
-                📋 Regras
-              </Link>
-            </>
+            <Link to={`/pools/${id}/settings`} className="btn-secondary text-sm">
+              ⚙️ Configurar
+            </Link>
           )}
+          <Link to={`/pools/${id}/rules`} className="btn-secondary text-sm">
+            📋 Regras
+          </Link>
           <button onClick={() => setInviteOpen(true)} className="btn-primary text-sm">
             + Convidar
           </button>

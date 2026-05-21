@@ -125,7 +125,7 @@ export default function PoolRulesPage() {
             {...register('goal_difference_points')}
             disabled={!currentPool?.is_creator}
           />
-          {currentPool?.is_creator && (
+          {currentPool?.is_creator ? (
             <>
               <div className="flex flex-col gap-1">
                 <label className="text-sm font-medium text-gray-700">Descrição / observações</label>
@@ -144,6 +144,12 @@ export default function PoolRulesPage() {
                 </Button>
               </div>
             </>
+          ) : (
+            <div className="flex justify-end">
+              <Button type="button" variant="secondary" onClick={() => navigate(`/pools/${id}`)}>
+                Voltar
+              </Button>
+            </div>
           )}
         </form>
 
