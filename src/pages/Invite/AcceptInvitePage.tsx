@@ -20,13 +20,11 @@ interface InvitationDetail {
   }
   inviter_name: string
   invitee_email: string | null
-  invitee_phone: string | null
 }
 
 interface FormValues {
   name: string
   email: string
-  phone: string
   password: string
   confirmPassword: string
 }
@@ -70,7 +68,6 @@ export default function AcceptInvitePage() {
         name: data.name,
         password: data.password,
         email: data.email || undefined,
-        phone: data.phone || undefined,
       })
       dispatch(setToken(res.token))
       dispatch(setUser({ ...res.user, created_at: '' }))
@@ -134,16 +131,8 @@ export default function AcceptInvitePage() {
             label="E-mail"
             type="email"
             defaultValue={detail.invitee_email ?? ''}
-            hint="Informe e-mail e/ou telefone"
             error={errors.email?.message}
             {...register('email')}
-          />
-          <Input
-            label="Telefone"
-            type="tel"
-            defaultValue={detail.invitee_phone ?? ''}
-            error={errors.phone?.message}
-            {...register('phone')}
           />
           <Input
             label="Senha"

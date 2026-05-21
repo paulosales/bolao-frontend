@@ -11,12 +11,11 @@ interface InvitationDetail {
   }
   inviter_name: string
   invitee_email: string | null
-  invitee_phone: string | null
 }
 
 interface AcceptResponse {
   token: string
-  user: { id: string; name: string; email: string | null; phone: string | null }
+  user: { id: string; name: string; email: string | null }
 }
 
 export const invitationService = {
@@ -27,7 +26,7 @@ export const invitationService = {
 
   async accept(
     token: string,
-    data: { name: string; password: string; email?: string; phone?: string }
+    data: { name: string; password: string; email?: string }
   ): Promise<AcceptResponse> {
     const res = await api.post<AcceptResponse>(`/invitations/${token}/accept`, data)
     return res.data

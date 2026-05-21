@@ -109,14 +109,13 @@ export interface PoolMatchSetting {
 // ─── Invitation ───────────────────────────────────────────────────────────────
 
 export type InvitationStatus = 'pending' | 'accepted' | 'cancelled'
-export type InvitationSentVia = 'email' | 'sms' | 'link'
+export type InvitationSentVia = 'email' | 'link'
 
 export interface Invitation {
   id: string
   pool_id: string
   inviter_id: string
   invitee_email: string | null
-  invitee_phone: string | null
   token: string
   status: InvitationStatus
   sent_via: InvitationSentVia

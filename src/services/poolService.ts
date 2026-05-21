@@ -99,11 +99,6 @@ export const poolService = {
     return res.data
   },
 
-  async inviteBySms(poolId: string, phone: string): Promise<{ message: string }> {
-    const res = await api.post(`/pools/${poolId}/invitations`, { phone })
-    return res.data
-  },
-
   async generateInviteLink(poolId: string): Promise<{ link: string }> {
     const res = await api.post<{ link: string }>(`/pools/${poolId}/invitations/link`)
     return res.data

@@ -11,7 +11,7 @@ interface Props {
   poolId: string
 }
 
-type InviteMode = 'email' | 'sms' | 'link'
+type InviteMode = 'email' | 'link'
 
 export default function InviteModal({ open, onClose, poolId }: Props) {
   const [mode, setMode] = useState<InviteMode>('email')
@@ -34,17 +34,13 @@ export default function InviteModal({ open, onClose, poolId }: Props) {
     }
 
     if (!value.trim()) {
-      toast.error(mode === 'email' ? 'Informe o e-mail' : 'Informe o telefone')
+      toast.error('Informe o e-mail')
       return
     }
 
     setLoading(true)
     try {
-      if (mode === 'email') {
-        await poolService.inviteByEmail(poolId, value.trim())
-      } else {
-        await poolService.inviteBySms(poolId, value.trim())
-      }
+      await poolService.inviteByEmail(poolId, value.trim())
       toast.success('Convite enviado!')
       setValue('')
       onClose()
@@ -64,7 +60,7 @@ export default function InviteModal({ open, onClose, poolId }: Props) {
   return (
     <Modal open={open} onClose={onClose} title="Convidar Participante" size="sm">
       <div className="flex gap-2 mb-4">
-        {(['email', 'sms', 'link'] as InviteMode[]).map((m) => (
+        {(['email', 'link'] as InviteMode[]).map((m) => (
           <button
             key={m}
             onClick={() => { setMode(m); setLink(null) }}
@@ -74,16 +70,16 @@ export default function InviteModal({ open, onClose, poolId }: Props) {
                 : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'
             }`}
           >
-            {m === 'email' ? '📧 E-mail' : m === 'sms' ? '📱 SMS' : '🔗 Link'}
+            {m === 'email' ? '📧 E-mail' : '🔗 Link'}
           </button>
         ))}
       </div>
 
       {mode !== 'link' && (
         <Input
-          label={mode === 'email' ? 'E-mail do convidado' : 'Telefone (+5511...)'}
-          type={mode === 'email' ? 'email' : 'tel'}
-          placeholder={mode === 'email' ? 'amigo@email.com' : '+5511999998888'}
+          label="E-mail do convidado"
+          type="email"
+          placeholder="amigo@email.com"
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
