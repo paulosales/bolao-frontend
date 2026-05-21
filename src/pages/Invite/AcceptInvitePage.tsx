@@ -72,7 +72,7 @@ export default function AcceptInvitePage() {
         email: data.email || undefined,
       })
       dispatch(setToken(res.token))
-      dispatch(setUser({ ...res.user, created_at: '' }))
+      dispatch(setUser({ ...res.user, created_at: '', phone: '' }))
       toast.success(`Bem-vindo ao ${detail?.pool.name}!`)
       navigate(`/pools/${detail?.pool.id}`)
     } catch (err: unknown) {

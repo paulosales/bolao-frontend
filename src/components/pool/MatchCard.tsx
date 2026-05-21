@@ -1,5 +1,5 @@
 import { Match, Bet } from '../../types'
-import { flagUrl, scoreSummary } from '../../utils/scoreUtils'
+import { scoreSummary } from '../../utils/scoreUtils'
 import { formatMatchDate } from '../../utils/dateUtils'
 
 interface Props {
