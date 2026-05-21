@@ -50,7 +50,7 @@ export default function MatchCard({ match, myBet, onBet, bettingOpen = true }: P
       {/* Teams */}
       <div className="flex items-start justify-between gap-2">
         {/* Home */}
-        <div className="flex flex-col items-center gap-1 flex-1">
+        <div className="flex flex-col h-20 items-center gap-1 flex-1">
           {homeFlag && (
             <img
               src={homeFlag}
@@ -90,17 +90,15 @@ export default function MatchCard({ match, myBet, onBet, bettingOpen = true }: P
       <p className="text-xs text-center text-gray-400">{match.venue}</p>
 
       {/* Bet section */}
-      {myBet && (
+      
         <div className="border-t pt-2 text-xs text-center text-gray-600">
           Sua aposta:{' '}
           <span className="font-semibold">
-            {myBet.home_score_bet} x {myBet.away_score_bet}
+            {myBet?.home_score_bet ?? '-'} x {myBet?.away_score_bet ?? '-'}
           </span>
-          {myBet.points_earned !== null && (
-            <span className="ml-2 badge badge-blue">{myBet.points_earned} pts</span>
-          )}
+          <span className="ml-2 badge badge-blue">{myBet?.points_earned ?? 0} pts</span>
         </div>
-      )}
+      
 
       {onBet && match.status === 'scheduled' && bettingOpen && (
         <button
