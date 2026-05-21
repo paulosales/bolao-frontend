@@ -31,4 +31,9 @@ export const invitationService = {
     const res = await api.post<AcceptResponse>(`/invitations/${token}/accept`, data)
     return res.data
   },
+
+  async join(token: string): Promise<{ pool_id: string }> {
+    const res = await api.post<{ pool_id: string }>(`/invitations/${token}/join`)
+    return res.data
+  },
 }

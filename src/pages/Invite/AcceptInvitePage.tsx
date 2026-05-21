@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { invitationService } from '../../services/invitationService'
 import { useAppDispatch } from '../../hooks/useRedux'
-import { setToken, setUser } from '../../store/authSlice'
+import { login, setToken, setUser } from '../../store/authSlice'
 import Input from '../../components/common/Input'
 import Button from '../../components/common/Button'
 import Loading from '../../components/common/Loading'
@@ -22,11 +22,16 @@ interface InvitationDetail {
   invitee_email: string | null
 }
 
-interface FormValues {
+interface RegisterValues {
   name: string
   email: string
   password: string
   confirmPassword: string
+}
+
+interface LoginValues {
+  login: string
+  password: string
 }
 
 export default function AcceptInvitePage() {
@@ -36,15 +41,12 @@ export default function AcceptInvitePage() {
   const [detail, setDetail] = useState<InvitationDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [mode, setMode] = useState<'register' | 'login'>('register')
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors, isSubmitting },
-  } = useForm<FormValues>()
+  const registerForm = useForm<RegisterValues>()
+  const loginForm = useForm<LoginValues>()
 
-  const password = watch('password')
+  const password = registerForm.watch('password')
 
   useEffect(() => {
     async function load() {
@@ -61,7 +63,7 @@ export default function AcceptInvitePage() {
     load()
   }, [token])
 
-  async function onSubmit(data: FormValues) {
+  async function onRegister(data: RegisterValues) {
     if (!token) return
     try {
       const res = await invitationService.accept(token, {
@@ -74,8 +76,25 @@ export default function AcceptInvitePage() {
       toast.success(`Bem-vindo ao ${detail?.pool.name}!`)
       navigate(`/pools/${detail?.pool.id}`)
     } catch (err: unknown) {
-      const e = err as { response?: { data?: { message?: string } } }
-      toast.error(e.response?.data?.message ?? 'Erro ao aceitar convite')
+      const e = err as { response?: { data?: { error?: string } } }
+      toast.error(e.response?.data?.error ?? 'Erro ao aceitar convite')
+    }
+  }
+
+  async function onLogin(data: LoginValues) {
+    if (!token) return
+    const result = await dispatch(login({ login: data.login, password: data.password }))
+    if (!login.fulfilled.match(result)) {
+      toast.error((result.payload as string) ?? 'Erro ao entrar')
+      return
+    }
+    try {
+      const { pool_id } = await invitationService.join(token)
+      toast.success(`Bem-vindo ao ${detail?.pool.name}!`)
+      navigate(`/pools/${pool_id}`)
+    } catch (err: unknown) {
+      const e = err as { response?: { data?: { error?: string } } }
+      toast.error(e.response?.data?.error ?? 'Erro ao entrar no bolão')
     }
   }
 
@@ -120,52 +139,100 @@ export default function AcceptInvitePage() {
           )}
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <Input
-            label="Seu nome"
-            required
-            error={errors.name?.message}
-            {...register('name', { required: 'Obrigatório' })}
-          />
-          <Input
-            label="E-mail"
-            type="email"
-            defaultValue={detail.invitee_email ?? ''}
-            error={errors.email?.message}
-            {...register('email')}
-          />
-          <Input
-            label="Senha"
-            type="password"
-            required
-            error={errors.password?.message}
-            {...register('password', {
-              required: 'Obrigatório',
-              minLength: { value: 6, message: 'Mínimo 6 caracteres' },
-            })}
-          />
-          <Input
-            label="Confirmar senha"
-            type="password"
-            required
-            error={errors.confirmPassword?.message}
-            {...register('confirmPassword', {
-              required: 'Obrigatório',
-              validate: (v) => v === password || 'Senhas não coincidem',
-            })}
-          />
+        {/* Mode toggle */}
+        <div className="flex gap-2 mb-6">
+          <button
+            type="button"
+            onClick={() => setMode('register')}
+            className={`flex-1 py-1.5 text-xs rounded-lg font-medium border transition-colors ${
+              mode === 'register'
+                ? 'bg-primary-600 text-white border-primary-600'
+                : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'
+            }`}
+          >
+            Criar conta
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode('login')}
+            className={`flex-1 py-1.5 text-xs rounded-lg font-medium border transition-colors ${
+              mode === 'login'
+                ? 'bg-primary-600 text-white border-primary-600'
+                : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'
+            }`}
+          >
+            Já tenho conta
+          </button>
+        </div>
 
-          <Button type="submit" loading={isSubmitting} className="w-full mt-2">
-            Aceitar convite e entrar
-          </Button>
-        </form>
-
-        <p className="text-center text-xs text-gray-400 mt-4">
-          Já tem conta?{' '}
-          <a href="/login" className="text-primary-600 hover:underline">
-            Entre aqui
-          </a>
-        </p>
+        {mode === 'register' ? (
+          <form onSubmit={registerForm.handleSubmit(onRegister)} className="flex flex-col gap-4">
+            <Input
+              label="Seu nome"
+              required
+              error={registerForm.formState.errors.name?.message}
+              {...registerForm.register('name', { required: 'Obrigatório' })}
+            />
+            <Input
+              label="E-mail"
+              type="email"
+              defaultValue={detail.invitee_email ?? ''}
+              error={registerForm.formState.errors.email?.message}
+              {...registerForm.register('email')}
+            />
+            <Input
+              label="Senha"
+              type="password"
+              required
+              error={registerForm.formState.errors.password?.message}
+              {...registerForm.register('password', {
+                required: 'Obrigatório',
+                minLength: { value: 6, message: 'Mínimo 6 caracteres' },
+              })}
+            />
+            <Input
+              label="Confirmar senha"
+              type="password"
+              required
+              error={registerForm.formState.errors.confirmPassword?.message}
+              {...registerForm.register('confirmPassword', {
+                required: 'Obrigatório',
+                validate: (v) => v === password || 'Senhas não coincidem',
+              })}
+            />
+            <Button
+              type="submit"
+              loading={registerForm.formState.isSubmitting}
+              className="w-full mt-2"
+            >
+              Criar conta e entrar
+            </Button>
+          </form>
+        ) : (
+          <form onSubmit={loginForm.handleSubmit(onLogin)} className="flex flex-col gap-4">
+            <Input
+              label="E-mail"
+              type="email"
+              defaultValue={detail.invitee_email ?? ''}
+              error={loginForm.formState.errors.login?.message}
+              {...loginForm.register('login', { required: 'Obrigatório' })}
+            />
+            <Input
+              label="Senha"
+              type="password"
+              required
+              error={loginForm.formState.errors.password?.message}
+              {...loginForm.register('password', { required: 'Obrigatório' })}
+            />
+            <Button
+              type="submit"
+              loading={loginForm.formState.isSubmitting}
+              className="w-full mt-2"
+            >
+              Entrar e aceitar convite
+            </Button>
+          </form>
+        )}
       </div>
     </div>
   )
