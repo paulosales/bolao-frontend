@@ -48,7 +48,7 @@ export default function MatchCard({ match, myBet, onBet, bettingOpen = true }: P
       </div>
 
       {/* Teams */}
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-start justify-between gap-2">
         {/* Home */}
         <div className="flex flex-col items-center gap-1 flex-1">
           {homeFlag && (
