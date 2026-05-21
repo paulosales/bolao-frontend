@@ -15,7 +15,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 text-white font-bold text-lg">
-          <span className="text-2xl">⚽</span>
+          <span className="text-2xl"><img src="/fwc26.png" width="85" alt="Logo" /></span>
           <span>Bolão da Copa</span>
           <span className="text-xs text-yellow-300 font-normal">2026</span>
         </Link>
