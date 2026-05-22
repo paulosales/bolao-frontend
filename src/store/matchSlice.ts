@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { Match } from '../types'
 import { matchService } from '../services/matchService'
+import { logout } from './authSlice'
 
 interface MatchState {
   matches: Match[]
@@ -37,6 +38,8 @@ const matchSlice = createSlice({
         state.loading = false
         state.error = action.payload as string
       })
+    // Reset match state on logout to prevent stale data for next user
+    builder.addCase(logout, () => initialState)
   },
 })
 

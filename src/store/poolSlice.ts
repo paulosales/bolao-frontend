@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { Pool } from '../types'
 import { poolService } from '../services/poolService'
+import { logout } from './authSlice'
 
 interface PoolState {
   pools: Pool[]
@@ -93,6 +94,8 @@ const poolSlice = createSlice({
       .addCase(createPool.fulfilled, (state, action) => {
         state.pools.unshift(action.payload)
       })
+    // Reset pool state on logout to prevent stale data for next user
+    builder.addCase(logout, () => initialState)
   },
 })
 

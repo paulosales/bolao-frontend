@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { Bet } from '../types'
 import { betService } from '../services/betService'
+import { logout } from './authSlice'
 
 interface BetState {
   bets: Bet[]           // current pool bets (all visible)
@@ -84,6 +85,8 @@ const betSlice = createSlice({
         if (idx !== -1) state.myBets[idx] = action.payload
         else state.myBets.push(action.payload)
       })
+    // Reset bet state on logout to prevent stale data for next user
+    builder.addCase(logout, () => initialState)
   },
 })
 

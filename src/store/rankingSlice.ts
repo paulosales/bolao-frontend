@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { RankingResponse } from '../types'
 import { poolService } from '../services/poolService'
+import { logout } from './authSlice'
 
 interface RankingState {
   data: RankingResponse | null
@@ -44,6 +45,8 @@ const rankingSlice = createSlice({
         state.loading = false
         state.error = action.payload as string
       })
+    // Reset ranking state on logout to prevent stale data for next user
+    builder.addCase(logout, () => initialState)
   },
 })
 
