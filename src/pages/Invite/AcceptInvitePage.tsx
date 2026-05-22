@@ -103,7 +103,7 @@ export default function AcceptInvitePage() {
   if (error || !detail) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="card p-8 text-center max-w-sm">
+        <div className="card p-6 text-center max-w-sm">
           <span className="text-4xl">❌</span>
           <p className="text-red-600 mt-4 font-medium">{error}</p>
         </div>
@@ -113,7 +113,7 @@ export default function AcceptInvitePage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8">
-      <div className="card w-full max-w-md p-8">
+      <div className="card w-full max-w-md p-5 sm:p-8">
         <div className="text-center mb-6">
           <span className="text-4xl">⚽</span>
           <h1 className="text-xl font-bold text-gray-900 mt-2">

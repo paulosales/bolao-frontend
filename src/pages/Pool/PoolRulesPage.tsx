@@ -82,7 +82,7 @@ export default function PoolRulesPage() {
 
   return (
     <div className="max-w-lg mx-auto">
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Regras de Pontuação</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Regras de Pontuação</h1>
       <p className="text-sm text-gray-500 mb-6">{currentPool?.name}</p>
 
       {rules?.description && (
@@ -91,7 +91,7 @@ export default function PoolRulesPage() {
         </div>
       )}
 
-      <div className="card p-6">
+      <div className="card p-4 sm:p-6">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <Input
             label="Placar exato"

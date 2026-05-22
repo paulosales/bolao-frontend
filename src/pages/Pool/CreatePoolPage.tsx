@@ -41,8 +41,8 @@ export default function CreatePoolPage() {
 
   return (
     <div className="max-w-lg mx-auto">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Criar Novo Bolão</h1>
-      <div className="card p-6">
+      <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Criar Novo Bolão</h1>
+      <div className="card p-4 sm:p-6">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <Input
             label="Nome do bolão"

@@ -34,7 +34,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="card w-full max-w-sm p-8">
+      <div className="card w-full max-w-sm p-6 sm:p-8">
         <div className="text-center mb-8">
           <span className="text-5xl">⚽</span>
           <h1 className="text-2xl font-bold text-gray-900 mt-2">Bolão da Copa</h1>

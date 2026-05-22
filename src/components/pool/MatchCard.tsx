@@ -50,7 +50,7 @@ export default function MatchCard({ match, myBet, onBet, bettingOpen = true }: P
       {/* Teams */}
       <div className="flex items-start justify-between gap-2">
         {/* Home */}
-        <div className="flex flex-col h-20 items-center gap-1 flex-1">
+        <div className="flex flex-col h-20 items-center gap-1 flex-1 min-w-0">
           {homeFlag && (
             <img
               src={homeFlag}
@@ -58,7 +58,7 @@ export default function MatchCard({ match, myBet, onBet, bettingOpen = true }: P
               className="w-10 h-auto rounded-sm shadow-sm"
             />
           )}
-          <span className="text-sm font-semibold text-center">
+          <span className="text-xs sm:text-sm font-semibold text-center line-clamp-2">
             {match.home_team?.name ?? 'A definir'}
           </span>
         </div>
@@ -72,7 +72,7 @@ export default function MatchCard({ match, myBet, onBet, bettingOpen = true }: P
         </div>
 
         {/* Away */}
-        <div className="flex flex-col items-center gap-1 flex-1">
+        <div className="flex flex-col items-center gap-1 flex-1 min-w-0">
           {awayFlag && (
             <img
               src={awayFlag}
@@ -80,7 +80,7 @@ export default function MatchCard({ match, myBet, onBet, bettingOpen = true }: P
               className="w-10 h-auto rounded-sm shadow-sm"
             />
           )}
-          <span className="text-sm font-semibold text-center">
+          <span className="text-xs sm:text-sm font-semibold text-center line-clamp-2">
             {match.away_team?.name ?? 'A definir'}
           </span>
         </div>

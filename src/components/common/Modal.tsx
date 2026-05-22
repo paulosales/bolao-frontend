@@ -24,11 +24,11 @@ export default function Modal({ open, onClose, title, children, size = 'md' }: M
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4"
       onClick={onClose}
     >
       <div
-        className={`card w-full ${widths[size]} p-6 relative`}
+        className={`card w-full ${widths[size]} p-5 sm:p-6 relative rounded-t-2xl sm:rounded-2xl max-h-[90vh] overflow-y-auto`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4">

@@ -62,40 +62,42 @@ export default function PoolDetailPage() {
   return (
     <div>
       {/* Header */}
-      <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">{currentPool.name}</h1>
-          <p className="text-sm text-gray-500 font-mono mt-1">#{currentPool.code}</p>
-        </div>
-        <div className="flex gap-2">
-          {currentPool.is_creator && (
-            <Link to={`/pools/${id}/settings`} className="btn-secondary text-sm">
-              ⚙️ Configurar
+      <div className="mb-6">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">{currentPool.name}</h1>
+            <p className="text-sm text-gray-500 font-mono mt-1">#{currentPool.code}</p>
+          </div>
+          <div className="flex flex-wrap gap-2 shrink-0">
+            {currentPool.is_creator && (
+              <Link to={`/pools/${id}/settings`} className="btn-secondary text-sm">
+                ⚙️ Configurar
+              </Link>
+            )}
+            <Link to={`/pools/${id}/rules`} className="btn-secondary text-sm">
+              📋 Regras
             </Link>
-          )}
-          <Link to={`/pools/${id}/rules`} className="btn-secondary text-sm">
-            📋 Regras
-          </Link>
-          <button onClick={() => setInviteOpen(true)} className="btn-primary text-sm">
-            + Convidar
-          </button>
+            <button onClick={() => setInviteOpen(true)} className="btn-primary text-sm">
+              + Convidar
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Accept Rules Banner */}
       {!currentPool.accepted_rules && (
-        <div className="card p-4 mb-4 bg-yellow-50 border-yellow-300 flex items-center justify-between gap-4">
-          <p className="text-sm text-yellow-800">
+        <div className="card p-4 mb-4 bg-yellow-50 border-yellow-300 flex flex-col sm:flex-row sm:items-center gap-3">
+          <p className="text-sm text-yellow-800 flex-1">
             ⚠️ Você precisa aceitar as regras do bolão para apostar.
           </p>
-          <div className="flex gap-2">
-            <Link to={`/pools/${id}/rules`} className="text-xs text-yellow-700 underline">
+          <div className="flex gap-2 shrink-0">
+            <Link to={`/pools/${id}/rules`} className="text-xs text-yellow-700 underline self-center">
               Ver regras
             </Link>
             <button
               onClick={handleAcceptRules}
               disabled={acceptingRules}
-              className="btn-success text-xs py-1 px-3"
+              className="btn-success text-xs py-1.5 px-3"
             >
               Aceitar
             </button>
@@ -116,7 +118,7 @@ export default function PoolDetailPage() {
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            className={`flex-1 sm:flex-none px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
               tab === t
                 ? 'border-primary-600 text-primary-700'
                 : 'border-transparent text-gray-500 hover:text-gray-700'
