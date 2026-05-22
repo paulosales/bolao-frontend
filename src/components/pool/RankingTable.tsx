@@ -1,13 +1,20 @@
 import { useState } from 'react'
-import { RankingEntry } from '../../types'
+import { PrizeDistribution, RankingEntry } from '../../types'
 
 interface Props {
   ranking: RankingEntry[]
   currentUserId: string | undefined
+  prizes?: PrizeDistribution
 }
 
-export default function RankingTable({ ranking, currentUserId }: Props) {
+export default function RankingTable({ ranking, currentUserId, prizes }: Props) {
   const [expanded, setExpanded] = useState<string | null>(null)
+
+  const prizeForPosition: Record<number, number | undefined> = {
+    1: prizes?.first,
+    2: prizes?.second,
+    3: prizes?.third,
+  }
 
   function toggle(userId: string) {
     setExpanded((prev) => (prev === userId ? null : userId))
@@ -68,6 +75,11 @@ export default function RankingTable({ ranking, currentUserId }: Props) {
                   </td>
                   <td className="py-3 px-3 sm:px-4 text-right font-bold text-primary-700 whitespace-nowrap">
                     {entry.total_points} pts
+                    {prizeForPosition[entry.position] ? (
+                      <span className="block text-xs text-green-700 font-semibold">
+                        {prizeForPosition[entry.position]!.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                      </span>
+                    ) : null}
                   </td>
                   <td className="py-3 px-2 sm:px-4 text-center text-gray-400 text-xs">
                     {isOpen ? '▲' : '▼'}

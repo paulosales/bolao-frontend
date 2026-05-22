@@ -1,11 +1,12 @@
-import { RankingEntry } from '../../types'
+import { PrizeDistribution, RankingEntry } from '../../types'
 
 interface Props {
   champion: RankingEntry
-  prize: number | null
+  prize?: PrizeDistribution | null
 }
 
 export default function ChampionAnnouncement({ champion, prize }: Props) {
+  const firstPrize = prize?.first ?? 0
   return (
     <div className="card p-8 text-center bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-300">
       <div className="text-6xl mb-4">🏆</div>
@@ -14,11 +15,11 @@ export default function ChampionAnnouncement({ champion, prize }: Props) {
       <p className="text-xl font-semibold text-yellow-700 mb-4">
         {champion.total_points} pontos
       </p>
-      {prize && (
+      {firstPrize > 0 && (
         <p className="text-lg text-yellow-800">
           Prêmio:{' '}
           <span className="font-bold">
-            {prize.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+            {firstPrize.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
           </span>
         </p>
       )}

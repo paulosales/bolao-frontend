@@ -32,6 +32,13 @@ const statusLabel: Record<string, string> = {
 }
 
 export default function MatchCard({ match, myBet, onBet, bettingOpen = true }: Props) {
+  // match_date is stored in Brasília time (UTC-3); bets close 24h before match start
+  const isBettingClosed = (() => {
+    if (match.status !== 'scheduled') return true
+    const matchDt = new Date(match.match_date.replace(' ', 'T') + '-03:00')
+    const deadline = new Date(matchDt.getTime() - 24 * 60 * 60 * 1000)
+    return new Date() >= deadline
+  })()
   const homeFlag = match.home_team
     ? (match.home_team as any).flag_url || ((match.home_team as any).short_name ? `https://flagcdn.com/w80/${(match.home_team as any).short_name.toLowerCase()}.png` : null)
     : null
@@ -100,13 +107,18 @@ export default function MatchCard({ match, myBet, onBet, bettingOpen = true }: P
         </div>
       
 
-      {onBet && match.status === 'scheduled' && bettingOpen && (
+      {onBet && match.status === 'scheduled' && bettingOpen && !isBettingClosed && (
         <button
           onClick={() => onBet(match)}
           className="btn-outline w-full text-xs py-1.5"
         >
           {myBet ? '✏️ Editar aposta' : '+ Apostar'}
         </button>
+      )}
+      {onBet && match.status === 'scheduled' && bettingOpen && isBettingClosed && (
+        <p className="text-xs text-center text-red-500 font-medium pt-1">
+          🔒 Apostas encerradas (24h antes do jogo)
+        </p>
       )}
     </div>
   )

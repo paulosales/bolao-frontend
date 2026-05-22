@@ -48,6 +48,10 @@ export const poolService = {
     await api.delete(`/pools/${poolId}/members/${userId}`)
   },
 
+  async setMemberPaid(poolId: string, userId: string, paid: boolean): Promise<void> {
+    await api.put(`/pools/${poolId}/members/${userId}/paid`, { quota_paid: paid })
+  },
+
   async getRules(poolId: string): Promise<PoolRule> {
     const res = await api.get<PoolRule>(`/pools/${poolId}/rules`)
     return res.data
@@ -61,6 +65,9 @@ export const poolService = {
       draw_points: number
       goal_difference_points: number
       winner_points: number
+      prize_pct_1st: number
+      prize_pct_2nd: number
+      prize_pct_3rd: number
       description?: string
     }
   ): Promise<PoolRule> {

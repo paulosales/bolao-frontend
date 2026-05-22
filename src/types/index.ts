@@ -67,6 +67,8 @@ export interface Pool {
   created_at: string
   // enriched fields
   member_count?: number
+  paid_count?: number
+  total_prize?: number
   rules?: PoolRule
   is_finished?: boolean
   is_creator?: boolean
@@ -83,6 +85,9 @@ export interface PoolRule {
   draw_points: number
   goal_difference_points: number
   winner_points: number
+  prize_pct_1st: number
+  prize_pct_2nd: number
+  prize_pct_3rd: number
   description: string | null
 }
 
@@ -95,6 +100,7 @@ export interface PoolMember {
   email: string | null
   phone: string | null
   accepted_rules: boolean
+  quota_paid: boolean
   joined_at: string
 }
 
@@ -160,11 +166,21 @@ export interface RankingEntry {
   bets: RankingBet[]
 }
 
+export interface PrizeDistribution {
+  total: number
+  first: number
+  second: number
+  third: number
+  pct_1st: number
+  pct_2nd: number
+  pct_3rd: number
+}
+
 export interface RankingResponse {
   ranking: RankingEntry[]
   is_finished: boolean
   champion: RankingEntry | null
-  prize: number | null
+  prizes: PrizeDistribution
 }
 
 // ─── API Generic ──────────────────────────────────────────────────────────────

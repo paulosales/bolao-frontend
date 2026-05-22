@@ -16,6 +16,9 @@ interface FormValues {
   draw_points: number
   goal_difference_points: number
   winner_points: number
+  prize_pct_1st: number
+  prize_pct_2nd: number
+  prize_pct_3rd: number
   description: string
 }
 
@@ -42,6 +45,9 @@ export default function PoolRulesPage() {
           draw_points: r.draw_points,
           goal_difference_points: r.goal_difference_points,
           winner_points: r.winner_points,
+          prize_pct_1st: r.prize_pct_1st,
+          prize_pct_2nd: r.prize_pct_2nd,
+          prize_pct_3rd: r.prize_pct_3rd,
           description: r.description ?? '',
         })
       } catch {
@@ -62,6 +68,9 @@ export default function PoolRulesPage() {
         draw_points: Number(data.draw_points),
         goal_difference_points: Number(data.goal_difference_points),
         winner_points: Number(data.winner_points),
+        prize_pct_1st: Number(data.prize_pct_1st),
+        prize_pct_2nd: Number(data.prize_pct_2nd),
+        prize_pct_3rd: Number(data.prize_pct_3rd),
         description: data.description || undefined,
       })
       toast.success('Regras atualizadas!')
@@ -134,6 +143,35 @@ export default function PoolRulesPage() {
             min={0}
             hint="Pontos por acertar o time vencedor (ou empate como resultado)"
             {...register('winner_points')}
+            disabled={!currentPool?.is_creator}
+          />
+          <hr className="my-1 border-gray-200" />
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Distribuição do Prêmio</p>
+          <Input
+            label="1º lugar (%)"
+            type="number"
+            min={0}
+            max={100}
+            hint="Percentual do prêmio para o 1º colocado"
+            {...register('prize_pct_1st')}
+            disabled={!currentPool?.is_creator}
+          />
+          <Input
+            label="2º lugar (%)"
+            type="number"
+            min={0}
+            max={100}
+            hint="Percentual do prêmio para o 2º colocado"
+            {...register('prize_pct_2nd')}
+            disabled={!currentPool?.is_creator}
+          />
+          <Input
+            label="3º lugar (%)"
+            type="number"
+            min={0}
+            max={100}
+            hint="Percentual do prêmio para o 3º colocado"
+            {...register('prize_pct_3rd')}
             disabled={!currentPool?.is_creator}
           />
           {currentPool?.is_creator ? (

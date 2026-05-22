@@ -82,6 +82,41 @@ export default function PoolDetailPage() {
             </button>
           </div>
         </div>
+
+        {/* Prize summary */}
+        {(() => {
+          const prize = ranking?.prizes?.total ?? currentPool.total_prize ?? 0
+          if (prize <= 0) return null
+          const pct1 = ranking?.prizes?.pct_1st ?? 60
+          const pct2 = ranking?.prizes?.pct_2nd ?? 30
+          const pct3 = ranking?.prizes?.pct_3rd ?? 10
+          const fmt = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+          return (
+            <div className="mt-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl px-4 py-3 flex flex-wrap items-center gap-4">
+              <div>
+                <p className="text-xs text-green-600 font-medium">💰 Prêmio total</p>
+                <p className="text-xl font-black text-green-800">{fmt(prize)}</p>
+              </div>
+              <div className="flex gap-3 ml-auto flex-wrap">
+                <div className="text-center">
+                  <p className="text-lg">🥇</p>
+                  <p className="text-xs font-bold text-green-800">{fmt(prize * pct1 / 100)}</p>
+                  <p className="text-xs text-green-600">{pct1}%</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-lg">🥈</p>
+                  <p className="text-xs font-bold text-green-800">{fmt(prize * pct2 / 100)}</p>
+                  <p className="text-xs text-green-600">{pct2}%</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-lg">🥉</p>
+                  <p className="text-xs font-bold text-green-800">{fmt(prize * pct3 / 100)}</p>
+                  <p className="text-xs text-green-600">{pct3}%</p>
+                </div>
+              </div>
+            </div>
+          )
+        })()}
       </div>
 
       {/* Accept Rules Banner */}
@@ -108,7 +143,7 @@ export default function PoolDetailPage() {
       {/* Champion Banner */}
       {ranking?.is_finished && ranking.champion && (
         <div className="mb-6">
-          <ChampionAnnouncement champion={ranking.champion} prize={ranking.prize} />
+          <ChampionAnnouncement champion={ranking.champion} prize={ranking.prizes} />
         </div>
       )}
 
@@ -135,7 +170,7 @@ export default function PoolDetailPage() {
           {rankingLoading ? (
             <Loading />
           ) : (
-            <RankingTable ranking={ranking?.ranking ?? []} currentUserId={user?.id} />
+            <RankingTable ranking={ranking?.ranking ?? []} currentUserId={user?.id} prizes={ranking?.prizes} />
           )}
         </>
       )}
