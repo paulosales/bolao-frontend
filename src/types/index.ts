@@ -54,7 +54,7 @@ export interface Match {
 
 // ─── Pool ─────────────────────────────────────────────────────────────────────
 
-export type BetVisibility = 'always' | 'during_match' | 'never'
+export type BetVisibility = 'before_start' | 'during_match'
 
 export interface Pool {
   id: string

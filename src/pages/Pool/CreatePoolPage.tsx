@@ -21,7 +21,7 @@ export default function CreatePoolPage() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormValues>({ defaultValues: { bet_visibility: 'during_match' } })
+  } = useForm<FormValues>({ defaultValues: { bet_visibility: 'before_start' } })
 
   async function onSubmit(data: FormValues) {
     const result = await dispatch(
@@ -78,9 +78,8 @@ export default function CreatePoolPage() {
               className="input"
               {...register('bet_visibility')}
             >
-              <option value="always">Sempre visível</option>
+              <option value="before_start">Sempre visível</option>
               <option value="during_match">Apenas após o jogo começar</option>
-              <option value="never">Nunca (somente criador)</option>
             </select>
           </div>
 

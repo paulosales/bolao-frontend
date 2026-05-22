@@ -92,9 +92,8 @@ export default function PoolSettingsPage() {
           <div className="flex flex-col gap-1">
             <label className="text-sm font-medium text-gray-700">Visibilidade das apostas</label>
             <select className="input" {...register('bet_visibility')}>
-              <option value="always">Sempre visível</option>
+              <option value="before_start">Sempre visível</option>
               <option value="during_match">Apenas após o jogo começar</option>
-              <option value="never">Nunca (somente criador)</option>
             </select>
           </div>
           <div className="flex gap-2 justify-end mt-2">
