@@ -15,6 +15,7 @@ interface FormValues {
   one_team_score_points: number
   draw_points: number
   goal_difference_points: number
+  winner_points: number
   description: string
 }
 
@@ -40,6 +41,7 @@ export default function PoolRulesPage() {
           one_team_score_points: r.one_team_score_points,
           draw_points: r.draw_points,
           goal_difference_points: r.goal_difference_points,
+          winner_points: r.winner_points,
           description: r.description ?? '',
         })
       } catch {
@@ -59,6 +61,7 @@ export default function PoolRulesPage() {
         one_team_score_points: Number(data.one_team_score_points),
         draw_points: Number(data.draw_points),
         goal_difference_points: Number(data.goal_difference_points),
+        winner_points: Number(data.winner_points),
         description: data.description || undefined,
       })
       toast.success('Regras atualizadas!')
@@ -123,6 +126,14 @@ export default function PoolRulesPage() {
             min={0}
             hint="Pontos por acertar a diferença de gols"
             {...register('goal_difference_points')}
+            disabled={!currentPool?.is_creator}
+          />
+          <Input
+            label="Time ganhador"
+            type="number"
+            min={0}
+            hint="Pontos por acertar o time vencedor (ou empate como resultado)"
+            {...register('winner_points')}
             disabled={!currentPool?.is_creator}
           />
           {currentPool?.is_creator ? (

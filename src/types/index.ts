@@ -82,6 +82,7 @@ export interface PoolRule {
   one_team_score_points: number
   draw_points: number
   goal_difference_points: number
+  winner_points: number
   description: string | null
 }
 
