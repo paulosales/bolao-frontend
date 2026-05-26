@@ -57,6 +57,12 @@ export default function LoginPage() {
             {...register('password', { required: 'Obrigatório' })}
           />
 
+          <div className="text-right -mt-2">
+            <Link to="/forgot-password" className="text-xs text-primary-600 hover:underline">
+              Esqueci minha senha
+            </Link>
+          </div>
+
           {error && <p className="text-sm text-red-600 text-center">{error}</p>}
 
           <Button type="submit" loading={loading} className="w-full mt-2">

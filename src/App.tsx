@@ -7,6 +7,8 @@ import Layout from './components/layout/Layout'
 import PrivateRoute from './components/layout/PrivateRoute'
 import LoginPage from './pages/Auth/LoginPage'
 import RegisterPage from './pages/Auth/RegisterPage'
+import ForgotPasswordPage from './pages/Auth/ForgotPasswordPage'
+import ResetPasswordPage from './pages/Auth/ResetPasswordPage'
 import DashboardPage from './pages/Dashboard/DashboardPage'
 import CreatePoolPage from './pages/Pool/CreatePoolPage'
 import PoolDetailPage from './pages/Pool/PoolDetailPage'
@@ -35,6 +37,8 @@ export default function App() {
         {/* Public routes without layout */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         <Route path="/convite/:token" element={<AcceptInvitePage />} />
 
         {/* Routes with shared layout */}
