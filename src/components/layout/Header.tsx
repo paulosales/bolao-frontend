@@ -1,11 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
+
+const CUP_START = new Date('2026-06-11T19:00:00-05:00')
+
+function useCountdown(target: Date) {
+  const calc = () => {
+    const diff = Math.max(0, target.getTime() - Date.now())
+    return {
+      days: Math.floor(diff / 86_400_000),
+      hours: Math.floor((diff % 86_400_000) / 3_600_000),
+      minutes: Math.floor((diff % 3_600_000) / 60_000),
+      seconds: Math.floor((diff % 60_000) / 1_000),
+    }
+  }
+  const [time, setTime] = useState(calc)
+  useEffect(() => {
+    const id = setInterval(() => setTime(calc()), 1000)
+    return () => clearInterval(id)
+  }, [])
+  return time
+}
 
 export default function Header() {
   const { user, isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
+  const { days, hours, minutes, seconds } = useCountdown(CUP_START)
 
   function handleLogout() {
     logout()
@@ -18,8 +39,20 @@ export default function Header() {
       isActive ? 'text-yellow-300' : 'text-white hover:text-yellow-200'
     }`
 
+  const plural = (n: number, s: string, p: string) => `${n} ${n === 1 ? s : p}`
+
   return (
     <header className="bg-copa-blue shadow-md">
+      {/* Countdown banner */}
+      <div className="bg-yellow-400 text-copa-blue text-center text-xs sm:text-sm font-semibold py-1.5 px-4 leading-snug">
+        ⏱️ Faltam{' '}
+        {plural(days, 'dia', 'dias')},{' '}
+        {plural(hours, 'hora', 'horas')},{' '}
+        {plural(minutes, 'minuto', 'minutos')} e{' '}
+        {plural(seconds, 'segundo', 'segundos')}{' '}
+        para começar a Copa do Mundo de 2026!
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link
